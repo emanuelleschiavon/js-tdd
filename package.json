@@ -4,8 +4,23 @@
   "description": "Curso de JS com TDD",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "./node_modules/.bin/mocha tests/**/*.spec.js --reporter=nyan",
+    "test-tdd": "./node_modules/.bin/mocha tests/**/*.spec.js --whatch",
+    "test-coverage": "nyc npm test",
     "lint": "./node_modules/.bin/eslint src/*.js"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint && npm run test-coverage",
+      "pre-push": "npm run lint && npm run test-coverage"
+    }
+  },
+  "nyc": {
+    "functions": 80,
+    "lines": 80,
+    "check-coverage": true,
+    "reporter": ["text", "html"],
+    "exclude": ["tests/**"] 
   },
   "repository": {
     "type": "git",
@@ -22,15 +37,12 @@
   },
   "homepage": "https://github.com/emanuelleschiavon/js-tdd#readme",
   "devDependencies": {
+    "chai": "^4.2.0",
     "eslint": "^5.10.0",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.14.0",
-    "husky": "^1.2.0"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run lint",
-      "pre-push": "npm run lint"
-    }
+    "husky": "^1.2.0",
+    "mocha": "^5.2.0",
+    "nyc": "^13.1.0"
   }
 }
